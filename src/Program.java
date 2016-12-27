@@ -13,7 +13,7 @@ import java.util.Random;
 public class Program {
 
 
-    public static Double Aktywacja(Double x, Double threshold){  //funkcja aktywacji dla sieci
+    public static Double Aktywacja(Double x){  //funkcja aktywacji dla sieci
         Double alpa=2.0;
         return (2/(1+Math.exp(-alpa*x))-1);
     }
@@ -25,8 +25,8 @@ public class Program {
 
         Siec SiecN=new Siec(new FunkcjaInterfejs() {
             @Override
-            public Double funkcjaAktywacji(Double suma, Double threshold) {
-                return Aktywacja(suma,threshold);
+            public Double funkcjaAktywacji(Double suma) {
+                return Aktywacja(suma);
             }
         });
 

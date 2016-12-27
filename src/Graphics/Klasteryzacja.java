@@ -12,7 +12,7 @@ public class Klasteryzacja {
     Klaster[][] klastry;
 
 
-    public Klasteryzacja(Image image, BufferedImage output_image){
+    public Klasteryzacja(final Image image, BufferedImage output_image){
         input_image=image;
         gui_image=output_image;
         klastry=new Klaster[Rysowanie.ilosc_klastrow][Rysowanie.ilosc_klastrow];

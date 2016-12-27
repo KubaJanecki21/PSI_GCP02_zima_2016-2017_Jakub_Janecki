@@ -38,8 +38,8 @@ public abstract class AbstractNeuron {
         Random rand=new Random();
         threshold=rand.nextDouble();
         for (int i = 0; i <wejscia.length;i++) {
-
-            wagi[i]= (rand.nextDouble());//rand.nextDouble()
+            wagi[i]=0.5;
+            //wagi[i]= (rand.nextDouble())*2-1;//rand.nextDouble()
         }
 
     }
@@ -49,9 +49,9 @@ public abstract class AbstractNeuron {
 
             if((wagi.length!=0)&&(wejscia.length!=0)){
                 for(int i=0;i<wagi.length;i++){
-                    suma+=wejscia[0]*wagi[i];
+                    suma+=wejscia[i]*wagi[i];
                 }
-                return suma;
+                return suma/400;
             } else{
                 System.out.println("Brak danych wejsc lub wag");
                 return 0.0;

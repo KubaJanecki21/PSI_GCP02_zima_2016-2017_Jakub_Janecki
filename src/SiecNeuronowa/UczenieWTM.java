@@ -6,24 +6,28 @@ import Neuron.DataSet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
 public class UczenieWTM {
 
     Double lambda=1.0;
     Siec network;
     Double[] input;
+    public static HashMap<Integer,Integer> zwyciezcy;
 
 
     public UczenieWTM(Double[] in, Siec net){
-        input=in;
+        input=Siec.normalizuInput(in);
         network=net;
         network.setWejscia(input);   //wejscia musza miec wymiar bedacy potega liczby naturalnej
         network.setWagi();
+        zwyciezcy=new HashMap<>();
 
     }
 
     public void setInput(Double[] in){
-        input=in;
+
+        input=Siec.normalizuInput(in);
         network.setWejscia(input);   //wejscia musza miec wymiar bedacy potega liczby naturalnej
 
     }
@@ -40,14 +44,20 @@ public class UczenieWTM {
 
         Pair wynik=null;
 
-        for(int i=0;i<it;i++) {
-            wynik = Run(k,gui_image,o);
+        //for(int i=0;i<it;i++) {
+        do {
+            wynik = Run(k, gui_image, o);
             wynik.getL();
-            if(k.odwzorowano) return wynik;
-            else if ((double) wynik.getR() < 20.0) break;
-
-        }
-
+            if (k.odwzorowano) {
+                zwyciezcy.put((Integer) wynik.getL(), k.id);
+                System.out.println("Klaster " + k.id + " - neuron: " + (Integer) wynik.getL());
+                return wynik;
+            }
+            //else if ((double) wynik.getR() < 20.0) break;
+        }while(!k.odwzorowano);
+        //}
+        System.out.println("Klaster "+k.id+" - neuron: "+(Integer) wynik.getL());
+        zwyciezcy.put((Integer) wynik.getL(),k.id);
         return wynik;
 
     }
@@ -102,18 +112,30 @@ public class UczenieWTM {
             odleglosci[j]=odleglosc;
         }
 
+        double min_val=odleglosci[0];
         int min=0;
+
+
         for(int i=0;i<aktualna.ilosc_neuronow;i++) {
-            if(odleglosci[i]<odleglosci[min]){
-                min=i;
+
+            if(zwyciezcy.get(i)==null) {
+                if (odleglosci[i] < odleglosci[min]) {
+                    min = i;
+                }
+
             }
+
+
         }
 
-        if(odleglosci[min]==0.0)
+
+
+        if(odleglosci[min]<=0.001)
         {
             klaster.id_neuron=min;
             klaster.odwzorowano=true;
             System.out.println(min);
+
             return min;
         }
         //System.out.println("odleglosc zwyciezcy: "+odleglosci[min]);
@@ -152,7 +174,9 @@ public class UczenieWTM {
                 int[] wsp2=this.getWspolrzedne(i);
                 int gx=wsp2[0]+k.x_start;
                 int gy=wsp2[1]+k.y_start;
-                int color=(network.warstwy[0].neurony[id]).wagi[i].intValue()*Rysowanie.stopien_kompresji;
+                double waga=network.warstwy[0].neurony[id].wagi[i];
+                waga=Siec.denormalizujKolor(waga);
+                int color=(int)waga;  //(network.warstwy[0].neurony[id]).wagi[i].intValue()*Rysowanie.stopien_kompresji
                // if(color<0){
                 //    break;
                // }

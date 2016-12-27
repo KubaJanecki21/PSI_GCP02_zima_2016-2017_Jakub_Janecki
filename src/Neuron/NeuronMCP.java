@@ -37,7 +37,7 @@ public class NeuronMCP extends AbstractNeuron{
 
     @Override
         public Double funkcjaAktywacji() {     /** metoda abstrakcyjna, wywoluje funkcje zaimplementowaną przy tworzeniu obiektu**/
-            return aktywacja.funkcjaAktywacji(this.Suma,this.threshold);
+            return aktywacja.funkcjaAktywacji(this.Suma);
         }
 
 

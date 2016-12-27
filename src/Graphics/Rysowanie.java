@@ -7,6 +7,7 @@ import SiecNeuronowa.Siec;
 import SiecNeuronowa.UczenieWTM;
 
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.concurrent.Callable;
@@ -21,30 +22,25 @@ public class Rysowanie implements Callable{
     BufferedImage bi;
     int numer;
 
-    public static int wymiar;
+    public static int wymiar=180;
     public static final double prog_bledu=10.0;
     public static final int stopien_kompresji=1;
-    public static final int ilosc_neuronow=15;
-    public static final int rozmiar_klastra=10;
-    public static int ilosc_klastrow=40;
+    public static final int ilosc_neuronow=6;
+    public static final int rozmiar_klastra=90; //180
+    public static int ilosc_klastrow=wymiar/rozmiar_klastra;
     public Rysowanie(Okno o ,int numer_wiersza){
         this.o=o;
-        im=o.im;
+        im=o.fs1;
         bi=o.bi;
-        wymiar=400;
+        //wymiar=400;
         numer = numer_wiersza;
-        wymiar=o.im.width;
+        wymiar=o.fs1.width;
         ilosc_klastrow=wymiar/rozmiar_klastra;
     }
 
-    public void RysujObraz(){
+    public HashMap<Integer,Integer> RysujObraz(Siec SiecN){
 
-        Siec SiecN=new Siec(new FunkcjaInterfejs() {
-            @Override
-            public Double funkcjaAktywacji(Double suma, Double threshold) {
-                return o.Aktywacja(suma,threshold);
-            }
-        });
+
 
 
         Klasteryzacja k=new Klasteryzacja(im,bi);
@@ -108,6 +104,7 @@ public class Rysowanie implements Callable{
         System.out.println("Ilosc epok: "+m);
         System.out.println("Czas uczenia: (min): "+czas/60);
         System.out.println("Przypuszczalny czas uczenia calosci w minutach: "+(czas*20)/60);
+        return uczenie.zwyciezcy;
 
     }
 
@@ -117,8 +114,8 @@ public class Rysowanie implements Callable{
 
         Siec SiecN=new Siec(new FunkcjaInterfejs() {
             @Override
-            public Double funkcjaAktywacji(Double suma, Double threshold) {
-                return o.Aktywacja(suma,threshold);
+            public Double funkcjaAktywacji(Double suma) {
+                return o.Aktywacja(suma);
             }
         });
 

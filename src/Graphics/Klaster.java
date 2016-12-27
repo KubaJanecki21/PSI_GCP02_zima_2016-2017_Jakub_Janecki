@@ -12,12 +12,14 @@ import java.awt.*;
 public class Klaster{
 
 
-    int id;
+    public int id;
     public boolean odwzorowano;
     public int id_neuron;
-    Double[] colory;
+    public Double[] colory;
     public int x_start;
     public int y_start;
+    int min=0;
+    int max=0;
 
     public Klaster(int id, int x_start, int y_start){
 
@@ -30,12 +32,16 @@ public class Klaster{
 
     void getPixelTab(){
         colory=new Double[Rysowanie.rozmiar_klastra*Rysowanie.rozmiar_klastra];
+        min=(int)Klasteryzacja.input_image.getPixelColorInt(0,0);
+        max=(int)Klasteryzacja.input_image.getPixelColorInt(0,0);
         for(int i=0;i<Rysowanie.rozmiar_klastra;i++){
             for(int j=0;j<Rysowanie.rozmiar_klastra;j++){
                 int it=i*Rysowanie.rozmiar_klastra+j;
                 int x=x_start+i;
                 int y=y_start+j;
                 int clr=(int)Klasteryzacja.input_image.getPixelColorInt(x,y);
+                if(clr<min) min=clr;
+                if(clr>max) max=clr;
                 //Color c=Klasteryzacja.input_image.getPixelColor(x,y);
                 //int test=c.getRGB();
                 //if(clr<-100000) {
@@ -46,6 +52,7 @@ public class Klaster{
                 colory[it]= (double)clr;
             }
         }
+        //System.out.println("MIN: "+min+" MAX: "+max);
     }
 
 
