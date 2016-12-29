@@ -44,7 +44,7 @@ public class UczenieWTM {
 
         Pair wynik=null;
 
-        //for(int i=0;i<it;i++) {
+
         do {
             wynik = Run(k, gui_image, o);
             wynik.getL();
@@ -53,9 +53,9 @@ public class UczenieWTM {
                 System.out.println("Klaster " + k.id + " - neuron: " + (Integer) wynik.getL());
                 return wynik;
             }
-            //else if ((double) wynik.getR() < 20.0) break;
+
         }while(!k.odwzorowano);
-        //}
+
         System.out.println("Klaster "+k.id+" - neuron: "+(Integer) wynik.getL());
         zwyciezcy.put((Integer) wynik.getL(),k.id);
         return wynik;
@@ -68,9 +68,7 @@ public class UczenieWTM {
 
         Pair wynik=aktualizujemy_wagi(k,gui_image,o);
 
-        //if(wynik!=null)
         return wynik;
-        //else return null;
     }
 
 
@@ -82,17 +80,14 @@ public class UczenieWTM {
         int win=szukajZwyciezcyWTM(aktualna,k);
 
         Double err=korygujWagi(aktualna,win,k,gui_image,o);
-        //if(err!=null) {
-        //System.out.println(err);
+
         Pair wynik = new Pair(win, err);
 
 
 
 
         return wynik;
-        //} else{
-        //    return null;
-        //}
+
 
     }
 
@@ -130,7 +125,7 @@ public class UczenieWTM {
 
 
 
-        if(odleglosci[min]<=0.001)
+        if(odleglosci[min]<=0.0000000000001)
         {
             klaster.id_neuron=min;
             klaster.odwzorowano=true;

@@ -51,7 +51,7 @@ public abstract class AbstractNeuron {
                 for(int i=0;i<wagi.length;i++){
                     suma+=wejscia[i]*wagi[i];
                 }
-                return suma/400;
+                return suma/wagi.length;
             } else{
                 System.out.println("Brak danych wejsc lub wag");
                 return 0.0;

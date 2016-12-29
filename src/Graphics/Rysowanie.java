@@ -56,44 +56,16 @@ public class Rysowanie implements Callable{
 
 
         for(int i=0;i<ilosc_klastrow;i++){
-            //int  i=0;
-            //int j=0;
+
             for(int j=0;j<ilosc_klastrow;j++){
+
                 Double[] input=k.klastry[j][i].colory;
                 if(uczenie==null)
                     uczenie=new UczenieWTM(input,SiecN);
                 else uczenie.setInput(input);
 
-
-                int id=0;
-                Double global_err=1000.0;
-
-                //do{
-
-                    Pair wynik=uczenie.Epoka(k.klastry[i][j],k.gui_image,o);
-                    m++;
-                    //System.out.println(wynik.getL());
-                    id = (int) wynik.getL();
-                    global_err = (Double) wynik.getR();
-
-                    //if(global_err<0.3) System.out.println("break");
-                //} while(global_err>prog_bledu);
-                Klaster kl=k.klastry[i][j];
-                AbstractNeuron winner=SiecN.warstwy[0].neurony[id];
-                Double[] wyniki=winner.wagi;
-                int id_klastra=k.klastry[i][j].id;
-
-                /*for(int n=0;n<400;n++){
-                    int[] wsp=uczenie.getWspolrzedne(n);
-                    int gx=wsp[0]+kl.x_start;
-                    int gy=wsp[1]+kl.y_start;
-                    k.gui_image.setRGB(gy,gx,wyniki[n].intValue()*100);
-                    this.repaint();
-
-
-                }*/
-
-
+                Pair wynik=uczenie.Epoka(k.klastry[i][j],k.gui_image,o);
+                m++;
 
             }
         }

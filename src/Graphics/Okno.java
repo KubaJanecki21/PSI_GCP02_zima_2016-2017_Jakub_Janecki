@@ -36,6 +36,7 @@ public class Okno extends JPanel
     static Image f2;
     static Image f3;
     static Image fs2;
+    static Image fs3;
     static HashMap<Integer,Integer> wyniki;
 
     HashMap <Integer,Double[]> mapa_obrazu;
@@ -57,6 +58,7 @@ public class Okno extends JPanel
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         try{
             f2=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\f2.png"));
         } catch (IOException e) {
@@ -71,6 +73,11 @@ public class Okno extends JPanel
 
         try{
             fs2=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\fS2.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try{
+            fs3=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\fS3.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -139,15 +146,18 @@ public class Okno extends JPanel
         double w3=liczObraz(f1,SiecN,"f1");
         double w4=liczObraz(f2,SiecN,"f2");
         double w5=liczObraz(f3,SiecN,"f3");
+        double w6=liczObraz(fs3,SiecN,"fS3");
 
-        double[] wyniki=new double[4];
+        double[] wyniki=new double[5];
         wyniki[0]=Math.abs(w1-w2);
         wyniki[1]=Math.abs(w1-w3);
         wyniki[2]=Math.abs(w1-w4);
         wyniki[3]=Math.abs(w1-w5);
+        wyniki[4]=Math.abs(w1-w6);
+
 
         int min=3;
-        for(int i=0;i<4;i++){
+        for(int i=0;i<5;i++){
             if(wyniki[i]<wyniki[min]){
                 min=i;
             }
@@ -158,6 +168,8 @@ public class Okno extends JPanel
         pliki.put(1,f1.file);
         pliki.put(2,f2.file);
         pliki.put(3,f3.file);
+        pliki.put(4,fs3.file);
+
         Desktop d=Desktop.getDesktop();
         d.open(pliki.get(min));
 

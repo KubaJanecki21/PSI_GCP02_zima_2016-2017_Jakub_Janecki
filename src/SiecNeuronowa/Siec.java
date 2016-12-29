@@ -135,25 +135,6 @@ public class Siec {
             output2[i] = wynik;
         }
 
-
-        /*Double[] output3 = new Double[warstwy[2].ilosc_neuronow];
-        for (int i = 0; i < warstwy[2].ilosc_neuronow; i++) {
-            //Double[] temp = new Double[1];
-            //temp[0] = input[i];
-            //warstwy[0].neurony[i].setWejscia(temp);
-            //if (warstwy[0].neurony[i].wagi == null) warstwy[0].neurony[i].inicjujWagi();
-            warstwy[2].neurony[i].setWejscia(output2);
-            warstwy[2].neurony[i].inicjujWagi();
-            Double wynik = warstwy[2].neurony[i].liczWynik();
-            output3[i] = wynik;
-        }*/
-        /*output = output1.clone();
-        for (int i = 1; i < ilosc_warstw; i++) {
-            Double[] output_temp = warstwy[i].LiczWarstwa(output);
-            output = output_temp.clone();
-        }*/
-
-
         return output2;
 
     }
