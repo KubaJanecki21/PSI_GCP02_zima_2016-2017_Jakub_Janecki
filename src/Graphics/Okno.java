@@ -14,6 +14,7 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -50,6 +51,7 @@ public class Okno extends JPanel
     {
         try{
             fs1=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\fS1.png"));
+            //fs1=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\testowy.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -139,8 +141,18 @@ public class Okno extends JPanel
         });
 
        wyniki=JedenWatek(o,SiecN);  //zwyciezca - > id klastra
+
+       szukajPodobnych(SiecN);
+       // ArrayList<Double> wyniki=liczBaze(SiecN);
         //WieleWatkow(o);
 
+
+
+
+    }
+
+
+    public static void szukajPodobnych(Siec SiecN) throws IOException {
         double w1=liczObraz(fs1,SiecN,"pierwotny fS1");
         double w2=liczObraz(fs2,SiecN,"fS2");
         double w3=liczObraz(f1,SiecN,"f1");
@@ -175,10 +187,32 @@ public class Okno extends JPanel
 
         System.out.println(min);
 
-        double koniec=System.nanoTime();
-        double czas=(koniec-start)/1000000000;
 
+    }
 
+    public static ArrayList<Double> liczBaze(Siec network){
+        final File folder = new File("C:\\Users\\Kuba\\Desktop\\FP\\PNG");
+        ArrayList<String> odciski=new ArrayList<>();
+        for (final File fileEntry : folder.listFiles()) {
+
+            odciski.add(fileEntry.getName());
+
+        }
+
+        ArrayList<Double> wyniki=new ArrayList<>();
+
+        for(int i=0;i<odciski.size();i++){
+            Image odcisk=null;
+            try{
+                odcisk=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\PNG\\"+odciski.get(i)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            double wynik=liczObraz(odcisk,network,odciski.get(i));
+            wyniki.add(wynik);
+        }
+
+        return wyniki;
     }
 
     public static double liczObraz(final Image im,Siec SiecN,String id){
@@ -195,7 +229,7 @@ public class Okno extends JPanel
             }
         }
 
-        System.out.println("Obraz nr:"+id+": "+sum/4);
+        System.out.println("Obraz nr:"+id+": "+sum*10000); // /4
         return sum/4;
     }
 

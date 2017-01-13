@@ -22,12 +22,13 @@ public class Rysowanie implements Callable{
     BufferedImage bi;
     int numer;
 
-    public static int wymiar=180;
-    public static final double prog_bledu=10.0;
+    public static int wymiar=180; //180
+    public static final double prog_bledu=1.0;
     public static final int stopien_kompresji=1;
-    public static final int ilosc_neuronow=6;
-    public static final int rozmiar_klastra=90; //180
-    public static int ilosc_klastrow=wymiar/rozmiar_klastra;
+    public static final int ilosc_neuronow=10;
+    public static int ilosc_klastrow=2;
+    public static final int rozmiar_klastra=wymiar/ilosc_klastrow; //90
+
     public Rysowanie(Okno o ,int numer_wiersza){
         this.o=o;
         im=o.fs1;

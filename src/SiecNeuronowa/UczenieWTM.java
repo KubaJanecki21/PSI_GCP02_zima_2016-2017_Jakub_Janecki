@@ -125,7 +125,7 @@ public class UczenieWTM {
 
 
 
-        if(odleglosci[min]<=0.0000000000001)
+        if(odleglosci[min]<=0.0000001)//<=0.0000000000001
         {
             klaster.id_neuron=min;
             klaster.odwzorowano=true;
