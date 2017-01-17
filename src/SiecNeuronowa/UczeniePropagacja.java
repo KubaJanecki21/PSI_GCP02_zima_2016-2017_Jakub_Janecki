@@ -24,25 +24,23 @@ public class UczeniePropagacja {
     }
 
     public Double Run(DataSet.TrainingSet dana){
-        Double blad_koncowy=0.0;
-        Double ostatni_blad=10000.0;
-        do {
-            wynik = network.LiczSiec(dana.dana1)[0];
-            //System.out.println(wynik);
 
-            blad_koncowy = dana.wynik - wynik;
-            //System.out.println("-----"+blad_koncowy);
-            //blad_koncowy = (blad_koncowy * blad_koncowy) / 2;
-            for (AbstractNeuron n : network.warstwy[0].neurony) n.err = 0.0;
-            aktualizujBledy(blad_koncowy);
-            aktualizujemy_wagi();
-            ostatni_blad=blad_koncowy;
+        wynik = network.LiczSiec(dana.dana1)[0];
 
-        } while (blad_koncowy<ostatni_blad);
 
-        return (blad_koncowy * blad_koncowy) / 2;
+        Double blad_koncowy = dana.wynik - wynik;
+
+        for (AbstractNeuron n : network.warstwy[0].neurony) n.err = 0.0;
+        aktualizujBledy(blad_koncowy);
+        aktualizujemy_wagi();
+
+
+
+        return blad_koncowy;
 
     }
+
+
 
     private void aktualizujBledy(Double blad_koncowy){
         int ilosc_warstw=network.warstwy.length;
@@ -54,7 +52,7 @@ public class UczeniePropagacja {
                 aktualny_neuron.err = 0.0;
             }
         }
-        network.warstwy[ilosc_warstw-1].neurony[0].err=blad_koncowy*PochodnaBipolarna(wynik_sieci);
+        network.warstwy[ilosc_warstw-1].neurony[0].err=blad_koncowy;
         for(int i=ilosc_warstw-1;i>=0;i--){
             Warstwa aktualna=network.warstwy[i];
 
@@ -63,7 +61,8 @@ public class UczeniePropagacja {
                     for (int k = 0; k < aktualna.neurony[j].wejscia.length; k++) {  //dla kazdego wejscia neuronu
                         Warstwa wczesniejsza=network.warstwy[i-1];
                         AbstractNeuron aktualny_neuron=aktualna.neurony[j];
-                        wczesniejsza.neurony[k].err+=aktualny_neuron.err*aktualny_neuron.wagi[k];
+                        Double blad_propagowany=aktualny_neuron.err*aktualny_neuron.wagi[k];
+                        wczesniejsza.neurony[k].err+=blad_propagowany;
                     }
                 }
             }
@@ -86,8 +85,11 @@ public class UczeniePropagacja {
                 for (int k = 0; k < aktualny_neuron.wejscia.length; k++) {  //dla kazdego wejscia neuronu
 
                     Double x=aktualny_neuron.wejscia[k];
-                    //Double y=( ( 2 / ( 1 + Math.exp( -2.0 * x ) ) ) - 1 );
-                    Double korekta=aktualny_neuron.learningRate*PochodnaBipolarna(aktualny_neuron.wynik)*aktualny_neuron.err*aktualny_neuron.wejscia[0]; //aktualny_neuron.err*
+                    Double wynik=aktualny_neuron.wynik;
+                    Double pochodna=PochodnaBipolarna(aktualny_neuron.wynik);
+                    Double blad_neuronu=aktualny_neuron.err;
+                    Double learning_rate=aktualny_neuron.learningRate;
+                    Double korekta=learning_rate*pochodna*blad_neuronu*x; //aktualny_neuron.err*
                     aktualny_neuron.wagi[k]+=korekta;
                 }
             }
@@ -102,14 +104,16 @@ public class UczeniePropagacja {
         return (2.0*( 1 - y * y ) / 2 );
     }
 
-    public Double Epoka(){
-        Double error=0.0;
-        for(int i=0;i<Dane.inputTest.length;i++){
-            error += Run(Dane.inputTest[i]);
+    public Double Epoka(DataSet.TrainingSet dana){
+        Double error=100.0;
+        //for(int i=0;i<Dane.inputTest.length;i++){
+
+        while (Math.abs(error)>0.001){
+            error = Run(dana);
+            //System.out.println(error);
         }
 
-
-        return error/Dane.inputTest.length;    //  ew. error/(Dane.trening.length);
+        return error;    //  ew. error/(Dane.trening.length);
     }
 
 

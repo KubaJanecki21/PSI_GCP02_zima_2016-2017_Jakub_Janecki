@@ -38,8 +38,21 @@ public abstract class AbstractNeuron {
         Random rand=new Random();
         threshold=rand.nextDouble();
         for (int i = 0; i <wejscia.length;i++) {
-            wagi[i]=0.5;
-            //wagi[i]= (rand.nextDouble())*2-1;//rand.nextDouble()
+            //wagi[i]=0.5;
+            wagi[i]= (rand.nextDouble())*2-1;//rand.nextDouble()
+        }
+
+    }
+
+    public void inicjujWagiRand(){  /** losuje wagi dla wejsc**/
+
+
+        this.wagi=new Double[wejscia.length];
+        Random rand=new Random();
+        threshold=rand.nextDouble();
+        for (int i = 0; i <wejscia.length;i++) {
+            //wagi[i]=0.5;
+            wagi[i]= (rand.nextDouble())*2-1;//rand.nextDouble()
         }
 
     }

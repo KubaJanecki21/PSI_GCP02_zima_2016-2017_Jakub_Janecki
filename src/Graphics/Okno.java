@@ -50,8 +50,8 @@ public class Okno extends JPanel
     public Okno()
     {
         try{
-            fs1=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\fS1.png"));
-            //fs1=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\testowy.jpg"));
+            //fs1=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\fS1.png"));
+            fs1=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\testowy.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -142,9 +142,9 @@ public class Okno extends JPanel
 
        wyniki=JedenWatek(o,SiecN);  //zwyciezca - > id klastra
 
-       szukajPodobnych(SiecN);
+       //szukajPodobnych(SiecN);
        // ArrayList<Double> wyniki=liczBaze(SiecN);
-        //WieleWatkow(o);
+       // WieleWatkow(o);
 
 
 

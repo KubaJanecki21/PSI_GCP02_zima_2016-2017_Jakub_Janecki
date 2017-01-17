@@ -17,19 +17,19 @@ public class DataSet {
     public DataSet(){    /** Inicjacja danych uczących**/
 
 
-        inputTest=new TrainingSet[3500];    /** Inicjacja danych wejsciowych**/
-        inputVal=new TrainingSet[1500];    /** Inicjacja danych wejsciowych**/
+        inputTest=new TrainingSet[50];    /** Inicjacja danych wejsciowych**/
+        inputVal=new TrainingSet[15];    /** Inicjacja danych wejsciowych**/
         //input[0]=new InputSet();
         double licz=0.0;
         int it=0;
         int iv=0;
-        for(int i=0;i<5000;i++) {
+        for(int i=0;i<65;i++) {
             double x=new Random().nextDouble()*10;
             double y=f(x);
-            if(i<3500){
+            if(i<50){
                 inputTest[i]=new TrainingSet(x,y);
             } else {
-                //inputVal[i-7000]=new TrainingSet(x,y);
+                inputVal[i-50]=new TrainingSet(x,y);
             }
         }
 
@@ -44,6 +44,7 @@ public class DataSet {
 
     public static Double f(Double x){
         return  - Math.pow((x - 5),2) + 25;
+        //return Math.pow(x,2);
     }
 
     public class TrainingSet{  /** klasa ucząca**/

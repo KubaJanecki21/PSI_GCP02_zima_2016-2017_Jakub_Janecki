@@ -27,7 +27,11 @@ public class UczenieWTA {
         network=net;
         input=in;
         network.setWejscia(input);
-        network.setWagi();
+        //network.setWagi();
+
+        for(int i=0;i<network.warstwy[0].ilosc_neuronow;i++){
+            network.warstwy[0].neurony[i].inicjujWagiRand();
+        }
         //for(int k=0;k<20;k++) input[k]=(1.0/20.0*k);
     }
 
