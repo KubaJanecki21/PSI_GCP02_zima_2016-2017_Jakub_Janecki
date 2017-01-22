@@ -15,11 +15,7 @@ public class UczenieHebba {
     DataSet Dane;
     Siec network;
 
-    public Double getWynik() {
-        return wynik;
-    }
 
-    private Double wynik;
 
     public UczenieHebba(DataSet dane, Siec network){
         this.Dane=dane;
@@ -38,10 +34,16 @@ public class UczenieHebba {
 
     public void Run(DataSet.TrainingSet dana){
 
-        //wynik=network.LiczSiec(dana.dana1)[0];
-        //Double blad=dana.wynik-wynik;
-       // System.out.println(Math.abs(blad));
+
+        Double wynik = network.LiczSiec(dana.dana1)[0];
+        Double blad = dana.wynik - wynik;
+        System.out.println(Math.abs(blad));
         aktualizujemy_wagi();
+
+        wynik = network.LiczSiec(dana.dana1)[0];
+        Double blad2 = dana.wynik - wynik;
+        System.out.println(Math.abs(blad2) + "\n");
+
 
     }
 
@@ -59,9 +61,9 @@ public class UczenieHebba {
                     Double w=aktualny_neuron.wagi[k];
                     Double x=aktualny_neuron.wejscia[k];
                     Double d=network.warstwy[0].neurony[0].wejscia[0];
-                    Double korekta=aktualny_neuron.learningRate*x*y; //regula Hebba
+                    //Double korekta=aktualny_neuron.learningRate*x*y; //regula Hebba
                     //Double korekta=aktualny_neuron.learningRate*(x-y*w)*y;
-                    //Double korekta=aktualny_neuron.learningRate*x*DataSet.normalizujWynik(DataSet.f(DataSet.denormalizujDana(x))); //regula Hebba z nauczycielem
+                    Double korekta=aktualny_neuron.learningRate*x*DataSet.normalizujWynik(DataSet.f(DataSet.denormalizujDana(x))); //regula Hebba z nauczycielem
                     aktualny_neuron.wagi[k]+=korekta;
 
                 }

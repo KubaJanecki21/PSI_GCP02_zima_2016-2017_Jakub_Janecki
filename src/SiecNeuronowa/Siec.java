@@ -2,9 +2,7 @@ package SiecNeuronowa;
 
 import Graphics.Klaster;
 import Graphics.Rysowanie;
-import Neuron.AbstractNeuron;
 import Neuron.FunkcjaInterfejs;
-import Neuron.NeuronMCP;
 
 import java.util.HashMap;
 
@@ -16,10 +14,11 @@ public class Siec {
 
     public Warstwa[] warstwy;
 
-    int ilosc_warstw=3;
+    int ilosc_warstw;
     public int il_neuronow_start= Rysowanie.ilosc_neuronow;
 
     public Siec(FunkcjaInterfejs funkcjaAktywacji){
+        ilosc_warstw=3;
         warstwy=new Warstwa[ilosc_warstw];
 
         Warstwa w1=new Warstwa(funkcjaAktywacji,50);
@@ -29,6 +28,7 @@ public class Siec {
         warstwy[0]=w1;
         warstwy[1]=w2;
         warstwy[2]=w4;
+
        // warstwy[2]=w3;
        // warstwy[2]=w4;
 
@@ -37,12 +37,14 @@ public class Siec {
 
 
     public Siec(FunkcjaInterfejs funkcjaAktywacji,boolean czy_jednowarstwowa){
+        ilosc_warstw=2;
         warstwy=new Warstwa[ilosc_warstw];
 
         Warstwa w1=new Warstwa(funkcjaAktywacji,il_neuronow_start);
         Warstwa w2=new Warstwa(funkcjaAktywacji,1);
         warstwy[0]=w1;
         warstwy[1]=w2;
+
 
 
     }
@@ -76,6 +78,11 @@ public class Siec {
                 } else output_temp = warstwy[i].LiczWarstwa(output);
                 output = output_temp.clone();
             }
+            //output = output1.clone();
+           // for (int i = 1; i < ilosc_warstw; i++) {
+            //    Double[] output_temp = warstwy[i].LiczWarstwa(output);
+            //    output = output_temp.clone();
+            //}
 
 
         return output;
@@ -108,16 +115,19 @@ public class Siec {
 
 
         //Double[] in=normalizuInput(in1);
-        Double[] we=klastry[0][0].colory;
+        Double[] we=klastry[0][0].piksele;
 
         Double[] input = new Double[il_neuronow_start];
-        for (int i = 0; i < il_neuronow_start; i++) //input[i] = in;
+        for (int i = 0; i < Rysowanie.ilosc_klastrow*Rysowanie.ilosc_klastrow; i++) //input[i] = in;
         {
 
-            int id_klastra=mapa.getOrDefault(i,500); //ktory klastow wypelnia ten neuron
-            if(id_klastra==500) continue;
-            Double[] wejscia=klastry[(id_klastra/Rysowanie.ilosc_klastrow)][id_klastra%Rysowanie.ilosc_klastrow].colory;
-            warstwy[0].neurony[i].setWejscia(normalizuInput(wejscia));
+            //int id_klastra=mapa.getOrDefault(i,500); //ktory klastow wypelnia ten neuron
+            //if(id_klastra==500) continue;
+
+            int id_klastra=i;
+            int id_neuronu=mapa.get(i);
+            Double[] wejscia=klastry[(id_klastra/Rysowanie.ilosc_klastrow)][id_klastra%Rysowanie.ilosc_klastrow].piksele;
+            warstwy[0].neurony[id_neuronu].setWejscia(normalizuInput(wejscia));
         }
 
 

@@ -30,14 +30,15 @@ public class Okno extends JPanel
 {
 
     static BufferedImage bi;
-    ImageIcon icon;
-    JLabel label;
+    static ImageIcon icon;
+    static JLabel label;
     static Image fs1;
     static Image f1;
     static Image f2;
     static Image f3;
     static Image fs2;
     static Image fs3;
+    static Image fsT;
     static HashMap<Integer,Integer> wyniki;
 
     HashMap <Integer,Double[]> mapa_obrazu;
@@ -49,48 +50,55 @@ public class Okno extends JPanel
 
     public Okno()
     {
+
         try{
-            //fs1=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\fS1.png"));
-            fs1=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\testowy.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try{
-            f1=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\f1.png"));
+            fsT=new Image(new File("FP\\testowy.jpg"));
+            //fs1=new Image(new File("FP\\testowy.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try{
-            f2=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\f2.png"));
+            fs1=new Image(new File("FP\\Osoba1_1.png"));
+            //fs1=new Image(new File("FP\\testowy.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try{
+            f1=new Image(new File("FP\\Osoba2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try{
-            f3=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\f3.png"));
+            f2=new Image(new File("FP\\Osoba3.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try{
-            fs2=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\fS2.png"));
+            f3=new Image(new File("FP\\Osoba4.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            fs2=new Image(new File("FP\\Osoba1_2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         try{
-            fs3=new Image(new File("C:\\Users\\Kuba\\Desktop\\FP\\fS3.png"));
+            fs3=new Image(new File("FP\\Osoba1_3.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-        int size = fs1.width;
-        bi = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
-       // bi2 = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
-        icon = new ImageIcon( bi );
-        label=new JLabel(icon);
-        add( label );
+       // int size = fs1.width;
+        //bi = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
+        //icon = new ImageIcon( bi );
+        //label=new JLabel(icon);
+        //add( label );
 
 
 
@@ -120,53 +128,48 @@ public class Okno extends JPanel
             }
         });
 
-        //ExecutorService executor= Executors.newFixedThreadPool(Rysowanie.ilosc_klastrow);
-        double start= System.nanoTime();
-        //Rysowanie r=new Rysowanie(o,1);
-        //r.RysujObraz();
-
-
-        /** ta opcja zuzywa w cholere zasobow, generuje podsieci neuronowe **/
-        //ExecutorService executor= Executors.newFixedThreadPool(Rysowanie.ilosc_klastrow);
-       // for(int i=0;i<Rysowanie.ilosc_klastrow;i++){
-        //Callable rysownik=new Rysowanie(o,i);
-        //executor.submit(rysownik);
-        //}
-
         Siec SiecN=new Siec(new FunkcjaInterfejs() {
             @Override
             public Double funkcjaAktywacji(Double suma) {
                 return o.Aktywacja(suma);
             }
-        });
-
-       wyniki=JedenWatek(o,SiecN);  //zwyciezca - > id klastra
-
-       //szukajPodobnych(SiecN);
-       // ArrayList<Double> wyniki=liczBaze(SiecN);
-       // WieleWatkow(o);
+        },true);
 
 
+        Odciski(o,SiecN);
+
+       //przerysowanie(o,SiecN);
 
 
     }
 
+    public static void przerysowanie(Okno o, Siec SiecN){
+        Rysowanie r=new Rysowanie(o,1,fsT,icon,label);
+        r.RysujObraz(SiecN);
+    }
+
+    public static void Odciski(Okno o, Siec SiecN) throws IOException {
+        wyniki=JedenWatek(o,SiecN);  //wersja jednowątkowa
+
+        szukajPodobnych(SiecN);
+        //ArrayList<Double> wyniki=liczBaze(SiecN);   //wersja testowa dla dużych zbiorów
+        //WieleWatkow(o);  //wersja równoległa
+    }
 
     public static void szukajPodobnych(Siec SiecN) throws IOException {
-        double w1=liczObraz(fs1,SiecN,"pierwotny fS1");
-        double w2=liczObraz(fs2,SiecN,"fS2");
-        double w3=liczObraz(f1,SiecN,"f1");
-        double w4=liczObraz(f2,SiecN,"f2");
-        double w5=liczObraz(f3,SiecN,"f3");
-        double w6=liczObraz(fs3,SiecN,"fS3");
+        //double w1=liczObraz(fs1,SiecN,"pierwotny fS1");
+        double w2=liczObraz(fs2,SiecN,"Osoba1_2");
+        double w3=liczObraz(f1,SiecN,"Osoba2");
+        double w4=liczObraz(f2,SiecN,"Osoba3");
+        double w5=liczObraz(f3,SiecN,"Osoba4");
+        double w6=liczObraz(fs3,SiecN,"Osoba1_3");
 
         double[] wyniki=new double[5];
-        wyniki[0]=Math.abs(w1-w2);
-        wyniki[1]=Math.abs(w1-w3);
-        wyniki[2]=Math.abs(w1-w4);
-        wyniki[3]=Math.abs(w1-w5);
-        wyniki[4]=Math.abs(w1-w6);
-
+        wyniki[0]=Math.abs(w2);
+        wyniki[1]=Math.abs(w3);
+        wyniki[2]=Math.abs(w4);
+        wyniki[3]=Math.abs(w5);
+        wyniki[4]=Math.abs(w6);
 
         int min=3;
         for(int i=0;i<5;i++){
@@ -229,19 +232,19 @@ public class Okno extends JPanel
             }
         }
 
-        System.out.println("Obraz nr:"+id+": "+sum*10000); // /4
+        System.out.println("Obraz nr:"+id+": "+sum); // /4
         return sum/4;
     }
 
     public static HashMap<Integer,Integer> JedenWatek(Okno o,Siec s){
-        Rysowanie r=new Rysowanie(o,1);
+        Rysowanie r=new Rysowanie(o,1,o.fs1,icon,label);
         return r.RysujObraz(s);
     }
 
     public static void WieleWatkow(Okno o){
         ExecutorService executor= Executors.newFixedThreadPool(Rysowanie.ilosc_klastrow);
         for(int i=0;i<Rysowanie.ilosc_klastrow;i++){
-            Callable rysownik=new Rysowanie(o,i);
+            Callable rysownik=new Rysowanie(o,i,o.fs1,icon,label);
             executor.submit(rysownik);
         }
     }

@@ -1,10 +1,5 @@
 package Graphics;
 
-import SiecNeuronowa.UczenieWTA;
-import SiecNeuronowa.UczenieWTM;
-
-import java.awt.*;
-
 /**
  * Created by Kuba on 2016-12-21.
  */
@@ -15,7 +10,7 @@ public class Klaster{
     public int id;
     public boolean odwzorowano;
     public int id_neuron;
-    public Double[] colory;
+    public Double[] piksele;
     public int x_start;
     public int y_start;
     int min=0;
@@ -31,7 +26,7 @@ public class Klaster{
     }
 
     void getPixelTab(){
-        colory=new Double[Rysowanie.rozmiar_klastra*Rysowanie.rozmiar_klastra];
+        piksele =new Double[Rysowanie.rozmiar_klastra*Rysowanie.rozmiar_klastra];
         min=(int)Klasteryzacja.input_image.getPixelColorInt(0,0);
         max=(int)Klasteryzacja.input_image.getPixelColorInt(0,0);
         for(int i=0;i<Rysowanie.rozmiar_klastra;i++){
@@ -49,9 +44,13 @@ public class Klaster{
                 //}
                 clr/= Rysowanie.stopien_kompresji;
 
-                colory[it]= (double)clr;
+                piksele[it]= (double)clr;
+                //System.out.println(clr);
+
             }
         }
+
+        //System.out.println("---------------------");
         //System.out.println("MIN: "+min+" MAX: "+max);
     }
 

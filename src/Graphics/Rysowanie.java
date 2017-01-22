@@ -1,15 +1,14 @@
 package Graphics;
 
-import Neuron.AbstractNeuron;
 import Neuron.FunkcjaInterfejs;
 import SiecNeuronowa.Pair;
 import SiecNeuronowa.Siec;
 import SiecNeuronowa.UczenieWTM;
 
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.concurrent.Callable;
 
 /**
@@ -22,33 +21,40 @@ public class Rysowanie implements Callable{
     BufferedImage bi;
     int numer;
 
-    public static int wymiar=400; //180
+    JLabel label;
+    Icon icon;
+
+    public static int wymiar; //180
     public static final double prog_bledu=1.0;
     public static final int stopien_kompresji=1;
     public static final int ilosc_neuronow=25;
-    public static int ilosc_klastrow=1;
-    public static final int rozmiar_klastra=wymiar/ilosc_klastrow; //90
+    public static int ilosc_klastrow=1; //16
+    public static int rozmiar_klastra=wymiar/ilosc_klastrow; //90
 
-    public Rysowanie(Okno o ,int numer_wiersza){
+    public Rysowanie(Okno o ,int numer_wiersza,Image im,Icon icon,JLabel label){
         this.o=o;
-        im=o.fs1;
-        bi=o.bi;
-        //wymiar=400;
+        this.im=im;
+        wymiar=im.width;
+        rozmiar_klastra=wymiar/ilosc_klastrow; //90
+        //bi=o.bi;
+        int size = im.width;
+        bi = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
         numer = numer_wiersza;
-        wymiar=o.fs1.width;
         ilosc_klastrow=wymiar/rozmiar_klastra;
+        this.label=label;
+        this.icon=icon;
     }
 
     public HashMap<Integer,Integer> RysujObraz(Siec SiecN){
 
 
+        icon = new ImageIcon( bi );
+        label=new JLabel(icon);
+        o.add( label );
 
 
         Klasteryzacja k=new Klasteryzacja(im,bi);
         HashSet<Double> test=new HashSet<>();
-        //for (int i=0;i<160000;i++){
-        ///    test.add(k.klastry.colo)
-        //}
         double start= System.nanoTime();
         UczenieWTM uczenie=null;
         int m=0;
@@ -60,12 +66,12 @@ public class Rysowanie implements Callable{
 
             for(int j=0;j<ilosc_klastrow;j++){
 
-                Double[] input=k.klastry[j][i].colory;
+                Double[] input=k.klastry[j][i].piksele;
                 if(uczenie==null)
                     uczenie=new UczenieWTM(input,SiecN);
                 else uczenie.setInput(input);
 
-                Pair wynik=uczenie.Epoka(k.klastry[i][j],k.gui_image,o);
+                uczenie.Epoka(k.klastry[i][j],k.gui_image,o);
                 m++;
 
             }
@@ -100,7 +106,7 @@ public class Rysowanie implements Callable{
 
         for(int j=0;j<ilosc_klastrow;j++){
         //int j=new Random().nextInt()*9;
-            Double[] input=k.klastry[j][i].colory;
+            Double[] input=k.klastry[j][i].piksele;
             if(uczenie==null)
                 uczenie=new UczenieWTM(input,SiecN);
             else uczenie.setInput(input);
@@ -110,10 +116,8 @@ public class Rysowanie implements Callable{
 
                 Pair wynik=uczenie.Epoka(k.klastry[i][j],k.gui_image,o);
                 m++;
-                //System.out.println(wynik.getL());
                 id=(int)wynik.getL();
                 global_err=(Double)wynik.getR();
-                //if(global_err<prog_bledu)break;
         }
 
 

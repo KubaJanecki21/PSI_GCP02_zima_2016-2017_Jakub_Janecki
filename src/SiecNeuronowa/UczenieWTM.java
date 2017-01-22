@@ -49,7 +49,7 @@ public class UczenieWTM {
             wynik = Run(k, gui_image, o);
             wynik.getL();
             if (k.odwzorowano) {
-                zwyciezcy.put((Integer) wynik.getL(), k.id);
+                zwyciezcy.put( k.id,(Integer) wynik.getL());
                 System.out.println("Klaster " + k.id + " - neuron: " + (Integer) wynik.getL());
                 return wynik;
             }
@@ -57,7 +57,7 @@ public class UczenieWTM {
         }while(!k.odwzorowano);
 
         System.out.println("Klaster "+k.id+" - neuron: "+(Integer) wynik.getL());
-        zwyciezcy.put((Integer) wynik.getL(),k.id);
+        zwyciezcy.put(k.id,(Integer) wynik.getL());
         return wynik;
 
     }
@@ -106,34 +106,25 @@ public class UczenieWTM {
             Double odleglosc=Math.sqrt(suma);
             odleglosci[j]=odleglosc;
         }
-
-        double min_val=odleglosci[0];
         int min=0;
 
-
         for(int i=0;i<aktualna.ilosc_neuronow;i++) {
-
-            if(zwyciezcy.get(i)==null) {
+            //if(zwyciezcy.get(i)==null) { //cwtm
                 if (odleglosci[i] < odleglosci[min]) {
                     min = i;
                 }
-
-            }
-
-
+            //}
         }
 
+        System.out.println(odleglosci[min]);
 
-
-        if(odleglosci[min]<=0.0000001)//<=0.0000000000001
+        if(odleglosci[min]<=0.0000001)
         {
             klaster.id_neuron=min;
             klaster.odwzorowano=true;
             System.out.println(min);
-
             return min;
         }
-        //System.out.println("odleglosc zwyciezcy: "+odleglosci[min]);
 
         return min;
     }
@@ -147,12 +138,10 @@ public class UczenieWTM {
 
     private Double korygujWagi( Warstwa aktualna,int id,Klaster k, BufferedImage gui_image,Okno o){
         Double blad=0.0;
-        AbstractNeuron zwyciezca=aktualna.neurony[id];
         int[] wsp=getWspolrzedne(id);
         int wx=wsp[0];
         int wy=wsp[1];
         Double korekta_sum=0.0;
-
         for(int j=0;j<aktualna.neurony.length;j++){
             AbstractNeuron neuron=aktualna.neurony[j];
             int dx=( j % ((int)Math.sqrt(input.length)) ) - wx;
@@ -163,7 +152,6 @@ public class UczenieWTM {
                 Double e=factor*(neuron.wejscia[i]-neuron.wagi[i]);
                 blad+=Math.abs(e);
                 Double korekta=neuron.learningRate*e;
-
                 neuron.wagi[i]+=korekta;
                 korekta_sum+=korekta;
                 int[] wsp2=this.getWspolrzedne(i);
@@ -171,27 +159,11 @@ public class UczenieWTM {
                 int gy=wsp2[1]+k.y_start;
                 double waga=network.warstwy[0].neurony[id].wagi[i];
                 waga=Siec.denormalizujKolor(waga);
-                int color=(int)waga;  //(network.warstwy[0].neurony[id]).wagi[i].intValue()*Rysowanie.stopien_kompresji
-               // if(color<0){
-                //    break;
-               // }
+                int color=(int)waga;
                 gui_image.setRGB(gy,gx,color);
                 o.repaint();
-
             }
-            /*for(int n=0;n<400;n++){
-                int[] wsp2=this.getWspolrzedne(n);
-                int gx=wsp2[0]+k.x_start;
-                int gy=wsp2[1]+k.y_start;
-                gui_image.setRGB(gy,gx,(network.warstwy[0].neurony[id]).wagi[n].intValue()*10000);
-                o.repaint();
-
-            }*/
         }
-    //System.out.println(korekta_sum);
-
-    //if(Math.abs(korekta_sum)<300000) return null;
-    //else
         return blad;
     }
 

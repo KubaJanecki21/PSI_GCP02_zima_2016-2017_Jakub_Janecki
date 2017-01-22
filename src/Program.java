@@ -28,7 +28,7 @@ public class Program {
             public Double funkcjaAktywacji(Double suma) {
                 return Aktywacja(suma);
             }
-        });
+        },true);
 
         Siec SiecN=new Siec(new FunkcjaInterfejs() {
             @Override
@@ -39,10 +39,18 @@ public class Program {
 
         //WTAtest(SiecJ);
 
-        PropagacjaTest(SiecN,Dane);
+        //PropagacjaTest(SiecN,Dane);
+
+        HebbTest(SiecJ,Dane);
 
 
+    }
 
+    public static void HebbTest(Siec SiecJ,DataSet dane){
+        UczenieHebba u =new UczenieHebba(dane,SiecJ);
+        //for(int i=0;i<dane.inputTest.length;i++) {
+        u.Epoka();
+        //}
 
     }
 
@@ -51,25 +59,12 @@ public class Program {
         UczeniePropagacja u=new UczeniePropagacja(dane,SiecA);
         for(int i=0;i<dane.inputTest.length;i++){
             u.Epoka(dane.inputTest[i]);
-            //Double w=SiecA.LiczSiec(dane.inputTest[i].dana1)[0];
-            //System.out.println("x: "+dane.inputTest[i].dana1+" ---- y: "+dane.inputTest[i].wynik+" ---- wynik sieci: "+w);
-            //System.out.println("x: "+DataSet.denormalizujDana(dane.inputTest[i].dana1)+" ---- y: "
-            //        +DataSet.denormalizujWynik(dane.inputTest[i].wynik)
-            //        +" ---- wynik sieci: "+DataSet.denormalizujWynik(w)+"\n");
+            Double w=SiecA.LiczSiec(dane.inputTest[i].dana1)[0];
+            System.out.println("x: "+dane.inputTest[i].dana1+" ---- y: "+dane.inputTest[i].wynik+" ---- wynik sieci: "+w);
+            System.out.println("x: "+DataSet.denormalizujDana(dane.inputTest[i].dana1)+" ---- y: "
+                    +DataSet.denormalizujWynik(dane.inputTest[i].wynik)
+                    +" ---- wynik sieci: "+DataSet.denormalizujWynik(w)+"\n");
         }
-
-        Double x1=1.0;
-        Double x2=4.0;
-        Double x3=5.0;
-        Double x4=6.0;
-        Double x5=9.0;
-
-
-        test(x1,SiecA);
-        test(x2,SiecA);
-        test(x3,SiecA);
-        test(x4,SiecA);
-        test(x5,SiecA);
 
 
     }
@@ -105,7 +100,7 @@ public class Program {
         czas/=1000000000;
         System.out.println("Ilosc epok uczenia jednego klastra: "+i);
         System.out.println("Czas uczenia jednego klastra (min): "+czas/60);
-        System.out.println("Przypuszczalny czas uczenia calosci w minutach: "+(czas*20)/60);
+
     }
 
 }
