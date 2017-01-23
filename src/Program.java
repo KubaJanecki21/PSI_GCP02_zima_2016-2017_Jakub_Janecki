@@ -37,11 +37,11 @@ public class Program {
             }
         });
 
-        //WTAtest(SiecJ);
+        WTAtest(SiecJ);
 
         //PropagacjaTest(SiecN,Dane);
 
-        HebbTest(SiecJ,Dane);
+        //HebbTest(SiecJ,Dane);
 
 
     }

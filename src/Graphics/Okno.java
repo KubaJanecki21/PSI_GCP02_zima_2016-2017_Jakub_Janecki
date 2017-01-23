@@ -52,7 +52,7 @@ public class Okno extends JPanel
     {
 
         try{
-            fsT=new Image(new File("FP\\testowy.jpg"));
+            fsT=new Image(new File("FP\\testowy2.jpg"));
             //fs1=new Image(new File("FP\\testowy.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,8 +112,6 @@ public class Okno extends JPanel
         frame.add( o);
         //frame.setLocationByPlatform( true );
         frame.pack();
-
-
     }
 
 
@@ -138,7 +136,7 @@ public class Okno extends JPanel
 
         Odciski(o,SiecN);
 
-       //przerysowanie(o,SiecN);
+        //przerysowanie(o,SiecN);
 
 
     }

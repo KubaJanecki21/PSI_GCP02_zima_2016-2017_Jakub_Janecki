@@ -28,7 +28,7 @@ public class Rysowanie implements Callable{
     public static final double prog_bledu=1.0;
     public static final int stopien_kompresji=1;
     public static final int ilosc_neuronow=25;
-    public static int ilosc_klastrow=1; //16
+    public static int ilosc_klastrow=2; //16
     public static int rozmiar_klastra=wymiar/ilosc_klastrow; //90
 
     public Rysowanie(Okno o ,int numer_wiersza,Image im,Icon icon,JLabel label){
@@ -40,7 +40,7 @@ public class Rysowanie implements Callable{
         int size = im.width;
         bi = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
         numer = numer_wiersza;
-        ilosc_klastrow=wymiar/rozmiar_klastra;
+        //ilosc_klastrow=wymiar/rozmiar_klastra;
         this.label=label;
         this.icon=icon;
     }
